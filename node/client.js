@@ -8,7 +8,7 @@ const proto = grpc.loadPackageDefinition(
     longs: String,
     enums: String,
     defaults: true,
-    oneofs: true
+    oneofs: true,
   })
 );
 
@@ -18,27 +18,19 @@ const client = new proto.example.ExampleService(
   grpc.credentials.createInsecure()
 );
 
-client.sayHello({ greeting: "Prakash" }, (error, response) => {
-  if (!error) {
-    console.log(response.reply);
-  } else {
-    console.log("Error:", error.message);
-  }
-});
-
-client.doAddition({ first_number: 1, second_number: 2 }, (error, response) => {
-  if (!error) {
-    console.log("Addition: " + response.result);
-  } else {
-    console.log("Error:", error.message);
-  }
-});
-
-client.doSubtraction(
-  { first_number: 1, second_number: 2 },
+client.bookInfo(
+  {
+    title: "Kafka on the Sea Shore",
+    author: "Haruki Murakami",
+    published: 2,
+    edition: 3,
+    isbn: "90980802934809",
+  },
   (error, response) => {
     if (!error) {
-      console.log("Substraction: " + response.result);
+      console.log("book_info: " + response.book_info);
+      console.log("query_unix_stamp: " + response.query_unix_stamp);
+      console.log("status: " + response.status);
     } else {
       console.log("Error:", error.message);
     }

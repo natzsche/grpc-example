@@ -1,8 +1,8 @@
 import grpc
 import example_pb2
 import example_pb2_grpc
+import time, random
 from concurrent import futures
-import time
 
 
 class ExampleServicer(example_pb2_grpc.ExampleServiceServicer):
@@ -21,6 +21,17 @@ class ExampleServicer(example_pb2_grpc.ExampleServiceServicer):
         response.result = request.first_number - request.second_number
         return response
 
+    def BookInfo(self, request, context):
+        response = example_pb2.BookInfoResponse()
+        book_info = (f"Books `{request.title}` with author: {request.author}, "
+                     f"Published on: {request.published}, edition: {request.edition}, "
+                     f"ISBN: {request.isbn}")
+        q_stamp = str(time.time()).split(".")
+        q_stamp = int(q_stamp[0])
+        response.book_info = book_info;
+        response.query_unix_stamp = f"{q_stamp}"
+        response.status = random.choice(["sold out", "ready stock"])
+        return response
 
 def main():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

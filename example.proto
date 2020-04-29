@@ -6,6 +6,7 @@ service ExampleService {
     rpc SayHello(HelloRequest) returns (HelloResponse); 
     rpc DoAddition(NumberRequest) returns (NumberResponse); 
     rpc DoSubtraction(NumberRequest) returns (NumberResponse); 
+    rpc BookInfo(BookInfoRequest) returns (BookInfoResponse); 
 }
 
 message HelloRequest { 
@@ -23,4 +24,18 @@ message NumberRequest {
 
 message NumberResponse { 
     int32 result = 1; 
+}
+
+message BookInfoRequest {
+    string title = 1;
+    int32 published = 2;
+    int32 edition = 3;
+    string isbn = 4;
+    string author = 5;
+}
+
+message BookInfoResponse {
+    string book_info = 1;
+    string query_unix_stamp = 2;
+    string status = 3;
 }

@@ -10,7 +10,7 @@ const proto = grpc.loadPackageDefinition(
     longs: String,
     enums: String,
     defaults: true,
-    oneofs: true
+    oneofs: true,
   })
 );
 
@@ -29,7 +29,16 @@ server.addService(proto.example.ExampleService.service, {
     const firstNumber = call.request.first_number;
     const secondNumber = call.request.second_number;
     callback(null, { result: firstNumber - secondNumber });
-  }
+  },
+  bookInfo(call, callback) {
+    book_info_res = `Books \`${call.request.title}\` with author: ${call.request.author}, Published on: ${call.request.published}, edition: ${call.request.edition}, ISBN: ${call.request.isbn}`;
+    items = ["sold out", "ready stock"];
+    callback(null, {
+      book_info: book_info_res,
+      query_unix_stamp: `${new Date().getTime()}`,
+      status: items[Math.floor(Math.random() * items.length)],
+    });
+  },
 });
 
 //Specify the IP and and port to start the grpc Server, no SSL in test environment
